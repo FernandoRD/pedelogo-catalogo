@@ -1,10 +1,29 @@
 pipeline{
-    agent any
+    agent any # quem executa a rotina
 
     stages{
-        stage('Teste'){
+        stage('Checkout Source'){
             steps{
-                echo 'Teste'
+                git 'https://github.com/FernandoRD/pedelogo-catalogo.git', branch: 'main'
+            }
+        
+        }
+        stage('Build Image'){
+            steps{
+                script{
+                    dockerapp = docker.build("fernandord/pedelogo-catalogo:${env.BUILD_ID}", '-f ./src/PedeLogo.Catalogo.Api/Dockerfile .')
+                }
+            }
+        
+        }
+        stage('Push Image'){
+            steps{
+                script{
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub'){
+                        dockerapp.push('latest')
+                        dockerapp.push("${env.BUILD_ID}")
+                    }
+                }
             }
         }
     }
