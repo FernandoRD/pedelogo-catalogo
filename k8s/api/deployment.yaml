@@ -17,7 +17,7 @@ spec:
           command: ["sh", "-c", "until nslookup mongo-service.default.svc.cluster.local; do echo Aguardando o Banco de Dados; sleep 2; done"]
       containers:
       - name: api
-        image: fernandord/pedelogo-catalogo:v1.0.0
+        image: fernandord/pedelogo-catalogo:{{tag}}
         imagePullPolicy: Always
         resources:
           requests: # Mínimo para a aplicação rodar
