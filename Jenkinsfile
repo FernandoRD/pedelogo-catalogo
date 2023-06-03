@@ -1,5 +1,5 @@
 pipeline{
-    agent {Antares}
+    agent any
 
     stages{
         stage('Checkout Source'){
