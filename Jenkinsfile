@@ -4,9 +4,8 @@ pipeline{
     stages{
         stage('Checkout Source'){
             steps{
-                git url 'https://github.com/FernandoRD/pedelogo-catalogo.git', branch: 'main'
-            }
-        
+                git url:'https://github.com/FernandoRD/pedelogo-catalogo.git', branch:'main'
+            }        
         }
         stage('Build Image'){
             steps{
