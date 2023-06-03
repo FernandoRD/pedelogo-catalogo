@@ -26,7 +26,7 @@ pipeline{
             }
         }
         stage('Deploy Kubernetes'){
-            egent{
+            agent{
                 Kubernetes{
                     cloud 'microk8s'
                 }
