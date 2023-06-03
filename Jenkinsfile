@@ -1,5 +1,5 @@
 pipeline{
-    agent any # quem executa a rotina
+    agent any
 
     stages{
         stage('Checkout Source'){
