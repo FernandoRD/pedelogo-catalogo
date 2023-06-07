@@ -27,7 +27,7 @@ pipeline{
         }
         stage('Deploy Kubernetes'){
             steps{
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'microk8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '192.168.0.181'){
+                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'microk8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'http://192.168.0.181:16443'){
                 sh 'kubectl apply -f k8s/mongodb'
                 sh 'kubectl apply -f k8s/api'
                 }
