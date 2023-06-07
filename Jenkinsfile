@@ -2,6 +2,7 @@ pipeline{
     agent { label 'Antares' }
     environment {
         MY_KUBECONFIG = credentials('microk8s')
+        tag_version = ${env.BUILD_ID}
     }
     stages{
         stage('Checkout Source'){
@@ -28,9 +29,13 @@ pipeline{
             }
         }
         stage('Deploy kubernetes') {
+            environment {
+                tag_version = ${env.BUILD_ID}
+            }
             steps {
-                sh("kubectl --kubeconfig $MY_KUBECONFIG apply -R -f k8s")
-                sh("kubectl --kubeconfig $MY_KUBECONFIG apply -R -f k8s")
+                sh('sed -i "s/{{tag}}/$tag_version/g" .k8s/api/deployment.yaml')
+                sh("kubectl --kubeconfig $MY_KUBECONFIG apply -R -f ./k8s")
+                sh("kubectl --kubeconfig $MY_KUBECONFIG apply -R -f ./k8s")
             }
         }
     }
