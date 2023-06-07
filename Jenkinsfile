@@ -32,7 +32,7 @@ pipeline{
                 tag_version = "${env.BUILD_ID}"
             }
             steps {
-                sh('sed -i "s/{{tag}}/${tag_version}/g" .k8s/api/deployment.yaml')
+                sh('sed -i "s/{{tag}}/${tag_version}/g" k8s/api/deployment.yaml')
                 sh("kubectl --kubeconfig $MY_KUBECONFIG apply -R -f k8s")
                 sh("kubectl --kubeconfig $MY_KUBECONFIG apply -R -f k8s")
             }
