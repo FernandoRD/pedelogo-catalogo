@@ -1,5 +1,5 @@
 pipeline{
-    agent any
+    agent { label 'Antares' }
 
     stages{
         stage('Checkout Source'){
