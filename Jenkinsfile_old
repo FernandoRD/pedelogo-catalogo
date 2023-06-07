@@ -26,8 +26,21 @@ pipeline{
             }
         }
         stage('Deploy Kubernetes'){
-            withKubeConfig([credentialsId: 'mikrok8s', serverUrl: '192.168.0.181']) {
-            sh 'kubectl apply -f k8s/*'
+            agent{
+                kubernetes{
+                    cloud 'microk8s'
+                }
             }
+            environment{
+                tag_version = "${env.BUILD_ID}"
+            }
+            steps{
+                script{
+                    sh 'sed -i "s/{{tag}}/$tag_version/g}}" ./k8s/api/deployment.yaml'
+                    sh 'cat ./k8s/api/deployment.yaml'
+                    kubernetesDeploy(configs: '**/k8s/**', kubeconfigId: 'microk8s')
+                }
+            }
+        }
     }
 }
