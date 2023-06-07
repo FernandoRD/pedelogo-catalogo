@@ -2,7 +2,6 @@ pipeline{
     agent { label 'Antares' }
     environment {
         MY_KUBECONFIG = credentials('microk8s')
-        tag_version = ${env.BUILD_ID}
     }
     stages{
         stage('Checkout Source'){
