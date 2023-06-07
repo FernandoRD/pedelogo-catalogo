@@ -25,11 +25,9 @@ pipeline{
                 }
             }
         }
-        node{
-            stage('Deploy Kubernetes'){
-                withKubeConfig([credentialsId: 'mikrok8s', serverUrl: '192.168.0.181']) {
-                sh 'kubectl apply -f k8s/*'
-                }
+        stage('Deploy Kubernetes'){
+            withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'microk8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: '192.168.0.181'){
+            sh 'kubectl apply -f k8s/*'
             }
         }
     }
