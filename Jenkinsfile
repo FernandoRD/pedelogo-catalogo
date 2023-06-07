@@ -29,7 +29,8 @@ pipeline{
         }
         stage('Deploy kubernetes') {
             steps {
-                sh("kubectl --kubeconfig $MY_KUBECONFIG get pods")
+                sh("kubectl --kubeconfig $MY_KUBECONFIG apply -f k8s/mongodb")
+                sh("kubectl --kubeconfig $MY_KUBECONFIG apply -f k8s/api")
             }
         }
     }
