@@ -1,6 +1,8 @@
 pipeline{
     agent { label 'Antares' }
-
+    environment {
+        MY_KUBECONFIG = credentials('microk8s')
+    }
     stages{
         stage('Checkout Source'){
             steps{
@@ -25,12 +27,9 @@ pipeline{
                 }
             }
         }
-        stage('Deploy Kubernetes'){
-            steps{
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'microk8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'http://192.168.0.181:16443'){
-                sh 'kubectl apply -f k8s/mongodb'
-                sh 'kubectl apply -f k8s/api'
-                }
+        stage('Deploy kubernetes') {
+            steps {
+                sh("kubectl --kubeconfig $MY_KUBECONFIG get pods")
             }
         }
     }
