@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'Antares' }
+    agent { label 'docker_executor' }
     environment {
         MY_KUBECONFIG = credentials('microk8s')
     }
