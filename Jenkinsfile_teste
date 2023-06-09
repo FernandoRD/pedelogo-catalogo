@@ -26,9 +26,13 @@ pipeline{
             }
         }
         stage('Deploy Kubernetes'){
+            environment{
+                tag_version = "${env.BUILD_ID}"
+            }
             steps{
-                withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'microk8s', namespace: '', restrictKubeConfigAccess: false, serverUrl: 'http://192.168.0.181:16443'){
-                sh 'kubectl apply -R -f k8s'
+                script{
+                    sh('sed -i "s/{{tag}}/${tag_version}/g" k8s/api/deployment.yaml')
+                    kubernetesDeploy(configs: '**/k8s/**', kubeconfigId: 'microk8s')
                 }
             }
         }
